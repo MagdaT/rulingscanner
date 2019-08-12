@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <strong class="text-muted">Istota interpretacji:{{ ruling.title }}</strong>
+                </div>
+
+
+
+
+                <p class="article-content">Autor: {{ ruling.author }}</p>
+                 <p class="article-content">Sygnatura: {{ ruling.ruling_no }}</p>
+                <p class="article-content">Data dodania: {{ ruling.creation_date }}</p>
+                <p class="article-content">{{ ruling.content }}</p>
+
+                <p class="article-content">Tagi: {{ ruling.tags}}</p>
+
+                {% if user.is_authenticated %}
+
+
+                <form action= "{% url "rulingscanner:like-post" %}" method=post
+                {% csrf_token %}
+                <button type="submit" button name="post_id" value="{{post.id}}" class = btn btn-primary color = solid #e3e3e3>Ważna interpretacja!</button>
+                </form>
+
+        <form action="" method="POST">
+                {% csrf_token %}
+                    <small class="text-muted">Add comment:</small>
+                    <small class="text-muted">{{ add_comment}}</small>
+                    <button class="btn btn-outline-info" type="submit">Add</button>
+        </form>
+
+                <div>
+                {% if ruling.comment_set.all %}
+                    <small class="text-muted">Comments: ({{ ruling.comment_set.all.count }})</small><br>
+                {% for comment in ruling.comment_set.all %}
+                   <small class="text-muted">{{ comment.author.username }}: </small>{{ comment.content }}<br>
+                {% endfor %}
+                {% else %}
+                    <small class="text-muted">Be the first to comment.</small>
+               {% endif %}
+                </div>
+
+                {% else %}
+                <small class="text-muted">Zaloguj się, żeby skomentować.</small>
+            {% endif %}
+
+
+</p>
+
+            </div>
+
+                    </article>
+<p>
+
+
+<!--<h2>Zobacz inne porady</h2>-->
+
+<!--limit = 10-->
+
+<!--{% for hint in limit %}-->
+        <!--<article class="media content-section">-->
+            <!--<div class="media-body">-->
+                <!--<div class="article-metadata">-->
+                    <!--<strong class="text-muted">{{ hint.title }}</strong>-->
+                <!--</div>-->
+                <!--<p class="article-content">{{ hint.content }}</p>-->
+            <!--</div>-->
+        <!--</article>-->
+    <!--{% endfor %}-->
+
+
+<!--{% endblock content %}-->

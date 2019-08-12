@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Ważna interpretacja</h2>
+
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <strong class="text-muted">{{ important_ruling.title }}</strong>
+            </div>
+            <p class="article-content">{{ important_ruling.get_shortcut_important_ruling }}</p>
+
+                <a href="{% url 'rulingscanner:hint-detail' important_ruling.pk %}" class=btn btn-primary color=solid #e3e3e3>Przeczytaj całą interpretację</a>
+{#            <form action="{% url "rulingscanner:like-post" %}" method=post#}
+{#            {% csrf_token %}#}
+{#            <button type="submit" button name="post_id" value="{{ post.id }}" class=btn btn-primary color=solid #e3e3e3>#}
+{#                Like#}
+{#            </button>#}
+{#            </form>#}
+
+        </div>
+
+    </article>
+    <p>
+
+
+    </p>
+
+    <h2>Wszystkie porady</h2>
+
+
+    {% for ruling in rulings %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <strong class="text-muted">{{ ruling.title }}</strong>
+                </div>
+                <p class="article-content">{{ ruling.get_shortcut }}</p>
+
+                <a href="{% url 'rulingscanner:hint-detail' ruling.pk %}" class=btn btn-primary color=solid #e3e3e3>Przeczytaj całą interpretację</a>
+
+            </div>
+        </article>
+    {% endfor %}
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if rulings.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ rulings.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ rulings.number }} of {{ rulings.paginator.num_pages }}.
+        </span>
+
+        {% if rulings.has_next %}
+            <a href="?page={{ rulings.next_page_number }}">next</a>
+            <a href="?page={{ rulings.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock content %}
